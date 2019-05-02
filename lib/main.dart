@@ -20,7 +20,7 @@ class AutoClipApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blueGrey,
       ),
-      home: Main(title: 'Flutter Demo Home Page'),
+      home: Main(title: 'Auto Clip'),
     );
   }
 }
@@ -71,9 +71,8 @@ class _MainState extends State<Main> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      body: new Container(
+        margin: const EdgeInsets.only(left: 20.0, right: 20.0),
         child: Column(
           // Column is also layout widget. It takes a list of children and
           // arranges them vertically. By default, it sizes itself to fit its
@@ -91,12 +90,11 @@ class _MainState extends State<Main> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have clicked the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
+            TextField(
+              decoration: InputDecoration(
+                hintText: 'Write texts to clip on'
+              ),
+              style: Theme.of(context).textTheme.headline,
             ),
           ],
         ),
