@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() => runApp(AutoClipApp());
 
@@ -44,16 +45,19 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
-  int _counter = 0;
-
-  void _incrementCounter() {
+  final key = new GlobalKey<ScaffoldState>();
+  final textEditingController = TextEditingController();
+  void _contentCopy(String text) {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
+      Clipboard.setData(new ClipboardData(text: text));
+      key.currentState.showSnackBar(
+        new SnackBar(content: new Text("Copied to Clipboard: " + text),)
+      );
     });
   }
 
@@ -66,6 +70,7 @@ class _MainState extends State<Main> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+      key: key,
       appBar: AppBar(
         // Here we take the value from the Main object that was created by
         // the App.build method, and use it to set our appbar title.
@@ -91,6 +96,7 @@ class _MainState extends State<Main> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextField(
+              controller: textEditingController,
               decoration: InputDecoration(
                 hintText: 'Write texts to clip on'
               ),
@@ -100,9 +106,9 @@ class _MainState extends State<Main> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+        onPressed: (){ _contentCopy(textEditingController.text); },
+        tooltip: 'Copy',
+        child: Icon(Icons.content_copy),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
