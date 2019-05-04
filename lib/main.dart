@@ -47,6 +47,7 @@ class Main extends StatefulWidget {
 class _MainState extends State<Main> {
   final key = new GlobalKey<ScaffoldState>();
   final textEditingController = TextEditingController();
+
   void _contentCopy(String text) {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -64,7 +65,7 @@ class _MainState extends State<Main> {
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
+    // by the _contentCopy method above.
     //
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
@@ -109,7 +110,7 @@ class _MainState extends State<Main> {
         onPressed: (){ _contentCopy(textEditingController.text); },
         tooltip: 'Copy',
         child: Icon(Icons.content_copy),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
