@@ -44,9 +44,36 @@ class Main extends StatefulWidget {
   _MainState createState() => _MainState();
 }
 
-class _MainState extends State<Main> {
+class _MainState extends State<Main> with WidgetsBindingObserver {
   final key = new GlobalKey<ScaffoldState>();
   final textEditingController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  AppLifecycleState _notification;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.paused:
+      case AppLifecycleState.suspending:
+        _contentCopy(textEditingController.text);
+        break;
+      case AppLifecycleState.resumed:
+        break;
+    }
+  }
 
   void _contentCopy(String text) {
     setState(() {
