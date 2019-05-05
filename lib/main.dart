@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() => runApp(AutoClipApp());
 
@@ -43,29 +44,61 @@ class Main extends StatefulWidget {
   _MainState createState() => _MainState();
 }
 
-class _MainState extends State<Main> {
-  int _counter = 0;
+class _MainState extends State<Main> with WidgetsBindingObserver {
+  final key = new GlobalKey<ScaffoldState>();
+  final textEditingController = TextEditingController();
 
-  void _incrementCounter() {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  AppLifecycleState _notification;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.paused:
+      case AppLifecycleState.suspending:
+        _contentCopy(textEditingController.text);
+        break;
+      case AppLifecycleState.resumed:
+        break;
+    }
+  }
+
+  void _contentCopy(String text) {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
+      Clipboard.setData(new ClipboardData(text: text));
+      key.currentState.showSnackBar(
+        new SnackBar(content: new Text("Copied to Clipboard: " + text),)
+      );
     });
   }
 
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
+    // by the _contentCopy method above.
     //
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+      key: key,
       appBar: AppBar(
         // Here we take the value from the Main object that was created by
         // the App.build method, and use it to set our appbar title.
@@ -91,6 +124,7 @@ class _MainState extends State<Main> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextField(
+              controller: textEditingController,
               decoration: InputDecoration(
                 hintText: 'Write texts to clip on'
               ),
@@ -100,10 +134,10 @@ class _MainState extends State<Main> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+        onPressed: (){ _contentCopy(textEditingController.text); },
+        tooltip: 'Copy',
+        child: Icon(Icons.content_copy),
+      ),
     );
   }
 }
