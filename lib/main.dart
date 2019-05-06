@@ -60,8 +60,6 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  AppLifecycleState _notification;
-
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
@@ -124,6 +122,9 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextField(
+              autofocus: true,
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
               controller: textEditingController,
               decoration: InputDecoration(
                 hintText: 'Write texts to clip on'
