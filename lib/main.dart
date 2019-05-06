@@ -63,12 +63,14 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
-      case AppLifecycleState.inactive:
       case AppLifecycleState.paused:
-      case AppLifecycleState.suspending:
         _contentCopy(textEditingController.text);
         break;
       case AppLifecycleState.resumed:
+        break;
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.suspending:
+        // Will not be used.
         break;
     }
   }
