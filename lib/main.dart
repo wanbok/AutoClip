@@ -122,6 +122,9 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextField(
+              autofocus: true,
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
               controller: textEditingController,
               decoration: InputDecoration(
                 hintText: 'Write texts to clip on'
