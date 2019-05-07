@@ -76,6 +76,8 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
   }
 
   void _contentCopy(String text) {
+    if (text.trim().isEmpty) return;
+
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
