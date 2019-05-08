@@ -63,17 +63,21 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
-      case AppLifecycleState.inactive:
       case AppLifecycleState.paused:
-      case AppLifecycleState.suspending:
         _contentCopy(textEditingController.text);
         break;
       case AppLifecycleState.resumed:
+        break;
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.suspending:
+        // Will not be used.
         break;
     }
   }
 
   void _contentCopy(String text) {
+    if (text.trim().isEmpty) return;
+
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
