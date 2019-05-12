@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'notification_service.dart';
 
 void main() => runApp(AutoClipApp());
 
@@ -47,6 +48,7 @@ class Main extends StatefulWidget {
 class _MainState extends State<Main> with WidgetsBindingObserver {
   final key = new GlobalKey<ScaffoldState>();
   final textEditingController = TextEditingController();
+  final notificationService = NotificationService();
 
   @override
   void initState() {
@@ -88,6 +90,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
       key.currentState.showSnackBar(
         new SnackBar(content: new Text("Copied to Clipboard: " + text),)
       );
+      notificationService.showNotification(text);
     });
   }
 
