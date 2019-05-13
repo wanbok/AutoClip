@@ -77,8 +77,10 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
     }
   }
 
-  void _contentCopy(String text) {
+  Future _contentCopy(String text) async {
     if (text.trim().isEmpty) return;
+    final ClipboardData oldData = await Clipboard.getData('text/plain');
+    if (text == oldData.text) return;
 
     setState(() {
       // This call to setState tells the Flutter framework that something has
