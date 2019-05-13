@@ -63,7 +63,7 @@ class NotificationService {
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(0, 'plain title', text, platformChannelSpecifics, payload: text);
+    await flutterLocalNotificationsPlugin.show(0, 'Cliped!', text, platformChannelSpecifics, payload: text);
   }
 
   Future<void> cancelNotification() async {
