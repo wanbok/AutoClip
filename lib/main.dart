@@ -8,10 +8,21 @@ class AutoClipApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final Color color = Colors.blueGrey;
     return MaterialApp(
       title: 'Auto Clip',
       theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
+        primarySwatch: color,
+        primaryTextTheme: TextTheme(
+          title: TextStyle(
+            color: color,
+          )
+        ),
+        appBarTheme: AppBarTheme(
+          color: Colors.transparent,
+          elevation: 0.0,
+          iconTheme: IconThemeData(color: color),
+        ),
       ),
       home: Main(title: 'Auto Clip'),
     );
@@ -130,6 +141,41 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
                 hintText: 'Write texts to clip on'
               ),
               style: Theme.of(context).textTheme.headline,
+            ),
+          ],
+        ),
+      ),
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the Drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Text('Drawer Header'),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+            ),
+            ListTile(
+              title: Text('Item 1'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('Item 2'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                // Then close the drawer
+                Navigator.pop(context);
+              },
             ),
           ],
         ),
