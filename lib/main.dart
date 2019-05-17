@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'notification_service.dart';
+import 'menu.dart';
 
 void main() => runApp(AutoClipApp());
 
@@ -8,10 +11,21 @@ class AutoClipApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final Color color = Colors.blueGrey;
     return MaterialApp(
       title: 'Auto Clip',
       theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
+        primarySwatch: color,
+        primaryTextTheme: TextTheme(
+          title: TextStyle(
+            color: color,
+          )
+        ),
+        appBarTheme: AppBarTheme(
+          color: Colors.transparent,
+          elevation: 0.0,
+          iconTheme: IconThemeData(color: color),
+        ),
       ),
       home: Main(title: 'Auto Clip'),
     );
@@ -57,7 +71,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.paused:
-        _contentCopy(textEditingController.text);
+        _contentCopyIfCan(textEditingController.text);
         break;
       case AppLifecycleState.resumed:
         break;
@@ -66,6 +80,12 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
         // Will not be used.
         break;
     }
+  }
+
+  _contentCopyIfCan(String text) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getBool(Keys.isAutoCopyOn) ?? true)
+      _contentCopy(text);
   }
 
   Future _contentCopy(String text) async {
@@ -134,6 +154,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
           ],
         ),
       ),
+      drawer: Menu(),
       floatingActionButton: FloatingActionButton(
         onPressed: (){ _contentCopy(textEditingController.text); },
         tooltip: 'Copy',
