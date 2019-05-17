@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'notification_service.dart';
 import 'menu.dart';
 
@@ -69,7 +71,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.paused:
-        _contentCopy(textEditingController.text);
+        _contentCopyIfCan(textEditingController.text);
         break;
       case AppLifecycleState.resumed:
         break;
@@ -78,6 +80,12 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
         // Will not be used.
         break;
     }
+  }
+
+  _contentCopyIfCan(String text) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getBool(Keys.isAutoCopyOn) ?? true)
+      _contentCopy(text);
   }
 
   Future _contentCopy(String text) async {

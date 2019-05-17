@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class Keys {
+  static final String isAutoCopyOn = 'isAutoCopyOn';
+}
 
 class Menu extends StatefulWidget {
   const Menu();
@@ -7,9 +12,24 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
+  _MenuState() {
+    _loadDataFromSharedPreferences();
+  }
+
   bool _isActive = true;
 
-  void _onChanged(bool value) => setState(() => _isActive = value);
+  _loadDataFromSharedPreferences() {
+    SharedPreferences.getInstance()
+      .then((prefs) => setState(() => _isActive = (prefs.getBool(Keys.isAutoCopyOn) ?? true)));
+  }
+
+  _onChanged(bool value) {
+    setState(() => _isActive = value);
+
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setBool(Keys.isAutoCopyOn, value);
+    }); 
+  }
 
   @override
   Widget build(BuildContext context) {
