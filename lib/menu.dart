@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 
-class Menu extends StatelessWidget {
+class Menu extends StatefulWidget {
   const Menu();
+  @override
+  _MenuState createState() => new _MenuState();
+}
+
+class _MenuState extends State<Menu> {
+  bool _isActive = true;
+
+  void _onChanged(bool value) => setState(() => _isActive = value);
 
   @override
   Widget build(BuildContext context) {
@@ -13,30 +21,40 @@ class Menu extends StatelessWidget {
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
-              child: Text(
-                'Drawer Header',
-                style: TextStyle(color: Colors.white)
-              ),
-              decoration: BoxDecoration(
-                color: Colors.blueGrey,
-              ),
+            Container(
+              height: 100,
+              child: DrawerHeader(
+                child: Text(
+                  'Settings',
+                  style: TextStyle(color: Colors.white)
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey,
+                ),
+              )
             ),
             ListTile(
-              title: Text('Item 1'),
+              title: Row(
+                children: <Widget>[
+                  Text('Auto Copy'),
+                  Switch(
+                    value: _isActive,
+                    activeColor: Colors.blueGrey,
+                    inactiveThumbColor: Colors.grey,
+                    onChanged: _onChanged,
+                  ),
+                ]
+              ),
               onTap: () {
                 // Update the state of the app
-                // ...
+                
                 // Then close the drawer
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              title: Text('Item 2'),
+              title: Text('Close'),
               onTap: () {
-                // Update the state of the app
-                // ...
-                // Then close the drawer
                 Navigator.pop(context);
               },
             ),
