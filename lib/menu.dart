@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Keys {
@@ -44,9 +45,20 @@ class _MenuState extends State<Menu> {
             Container(
               height: 100,
               child: DrawerHeader(
-                child: Text(
-                  'Settings',
-                  style: TextStyle(color: Colors.white)
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      'Settings',
+                      style: TextStyle(color: Colors.white)
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.close),
+                      color: Colors.white,
+                      padding: EdgeInsets.only(top: 0, bottom: 8, left: 8, right: 8),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 ),
                 decoration: BoxDecoration(
                   color: Colors.blueGrey,
@@ -65,18 +77,6 @@ class _MenuState extends State<Menu> {
                   ),
                 ]
               ),
-              onTap: () {
-                // Update the state of the app
-                
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Close'),
-              onTap: () {
-                Navigator.pop(context);
-              },
             ),
           ],
         ),
