@@ -91,19 +91,19 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
   Future _contentCopy(String text) async {
     if (text.trim().isEmpty) return;
     final ClipboardData oldData = await Clipboard.getData('text/plain');
-    if (text == oldData.text) return;
+    // if (text == oldData.text) return; // Let the message post even if duplicated
+    _notifyText(text);
+  }
 
+  void _notifyText(String message) {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      Clipboard.setData(new ClipboardData(text: text));
-      key.currentState.showSnackBar(
-        new SnackBar(content: new Text("Copied to Clipboard: " + text),)
-      );
-      notificationService.showNotification(text);
+      Clipboard.setData(new ClipboardData(text: message));
+      notificationService.showNotification(message);
     });
   }
 
