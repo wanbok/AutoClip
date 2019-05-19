@@ -147,7 +147,13 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
               keyboardType: TextInputType.multiline,
               controller: textEditingController,
               decoration: InputDecoration(
-                hintText: 'Write texts to clip on'
+                hintText: 'Write texts to clip on',
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.clear),
+                  onPressed: () {
+                    textEditingController.clear();
+                  }
+                ),
               ),
               style: Theme.of(context).textTheme.headline,
             ),
