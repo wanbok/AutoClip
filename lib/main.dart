@@ -51,7 +51,7 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> with WidgetsBindingObserver {
-  final key = new GlobalKey<ScaffoldState>();
+  final key = GlobalKey<ScaffoldState>();
   final textEditingController = TextEditingController();
   final notificationService = NotificationService();
 
@@ -102,7 +102,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      Clipboard.setData(new ClipboardData(text: message));
+      Clipboard.setData(ClipboardData(text: message));
       notificationService.showNotification(message);
     });
   }
@@ -122,7 +122,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: new Container(
+      body: Container(
         margin: const EdgeInsets.only(left: 20.0, right: 20.0),
         child: Column(
           // Column is also layout widget. It takes a list of children and
