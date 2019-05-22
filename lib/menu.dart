@@ -9,61 +9,56 @@ class Keys {
   static final String doShowPushNotification = 'doShowPushNotification';
 }
 
-class Menu extends StatefulWidget {
+class Menu extends StatelessWidget {
   const Menu();
-  @override
-  _MenuState createState() => new _MenuState();
-}
-
-class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the Drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Container(
-              height: 100,
-              child: DrawerHeader(
-                child: Row(
-                  children: <Widget>[
-                    Text(
-                      'Settings',
-                      style: TextStyle(color: Colors.white)
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.close),
-                      color: Colors.white,
-                      padding: EdgeInsets.only(top: 0, bottom: 8, left: 8, right: 8),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ],
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.blueGrey,
-                ),
-              )
-            ),
-            ListTile(
-              title: TextSwitch(title: 'Auto Copy', key: Keys.isAutoCopyOn, defaultValue: true),
-            ),
-            ListTile(
-              title: TextSwitch(title: 'Auto Paste on load', key: Keys.isAutoPasteOn, defaultValue: false),
-            ),
-            ListTile(
-              title: TextSwitch(title: 'Clear Text after copy', key: Keys.doClearAfterCopy, defaultValue: false),
-            ),
-            ListTile(
-              title: TextSwitch(title: 'Push notification after copy', key: Keys.doShowPushNotification, defaultValue: true),
-            ),
-          ],
-        ),
-      );
+      // Add a ListView to the drawer. This ensures the user can scroll
+      // through the options in the Drawer if there isn't enough vertical
+      // space to fit everything.
+      child: ListView(
+        // Important: Remove any padding from the ListView.
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          Container(
+            height: 100,
+            child: DrawerHeader(
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'Settings',
+                    style: TextStyle(color: Colors.white)
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.close),
+                    color: Colors.white,
+                    padding: EdgeInsets.only(top: 0, bottom: 8, left: 8, right: 8),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.blueGrey,
+              ),
+            )
+          ),
+          ListTile(
+            title: TextSwitch(title: 'Auto Copy', key: Keys.isAutoCopyOn, defaultValue: true),
+          ),
+          ListTile(
+            title: TextSwitch(title: 'Auto Paste on load', key: Keys.isAutoPasteOn, defaultValue: false),
+          ),
+          ListTile(
+            title: TextSwitch(title: 'Clear Text after copy', key: Keys.doClearAfterCopy, defaultValue: false),
+          ),
+          ListTile(
+            title: TextSwitch(title: 'Push notification after copy', key: Keys.doShowPushNotification, defaultValue: true),
+          ),
+        ],
+      ),
+    );
   }
 }
 
