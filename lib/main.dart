@@ -160,7 +160,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
           ],
         ),
       ),
-      drawer: Menu(),
+      drawer: const Menu(),
       floatingActionButton: FloatingActionButton(
         onPressed: (){ _contentCopy(textEditingController.text); },
         tooltip: 'Copy',

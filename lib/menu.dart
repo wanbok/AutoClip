@@ -13,25 +13,6 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
-  _MenuState() {
-    _loadDataFromSharedPreferences();
-  }
-
-  bool _isActive = true;
-
-  _loadDataFromSharedPreferences() {
-    SharedPreferences.getInstance()
-      .then((prefs) => setState(() => _isActive = (prefs.getBool(Keys.isAutoCopyOn) ?? true)));
-  }
-
-  _onChanged(bool value) {
-    setState(() => _isActive = value);
-
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setBool(Keys.isAutoCopyOn, value);
-    }); 
-  }
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -66,20 +47,64 @@ class _MenuState extends State<Menu> {
               )
             ),
             ListTile(
-              title: Row(
-                children: <Widget>[
-                  Text('Auto Copy'),
-                  Switch(
-                    value: _isActive,
-                    activeColor: Colors.blueGrey,
-                    inactiveThumbColor: Colors.grey,
-                    onChanged: _onChanged,
-                  ),
-                ]
-              ),
+              title: TextSwitch(title: 'Auto Copy', key: Keys.isAutoCopyOn, defaultValue: true),
             ),
           ],
         ),
       );
+  }
+}
+
+class TextSwitch extends StatefulWidget {
+  final String _key;
+  final String _title;
+  final bool _value;
+
+  TextSwitch({String key, String title, bool defaultValue}):
+    _key = key,
+    _title = title,
+    _value = defaultValue;
+
+  @override
+  State<StatefulWidget> createState() => TextSwitchState(key: _key, title: _title, defaultValue: _value);
+}
+
+class TextSwitchState extends State<TextSwitch> {
+  final String _key;
+  final String _title;
+  bool _value;
+
+  TextSwitchState._(this._key, this._title, this._value);
+  factory TextSwitchState({String key, String title, bool defaultValue}) {
+    TextSwitchState state = TextSwitchState._(key, title, defaultValue);
+    state._loadDataFromSharedPreferences(key);
+    return state;
+  }
+
+  _loadDataFromSharedPreferences(String key) {
+    SharedPreferences.getInstance()
+      .then((prefs) => setState(() => _value = (prefs.getBool(_key) ?? true)));
+  }
+  _onChanged(bool value) {
+    setState(() => _value = value);
+
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setBool(_key, value);
+    }); 
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Text(_title),
+        Switch(
+          value: _value,
+          activeColor: Colors.blueGrey,
+          inactiveThumbColor: Colors.grey,
+          onChanged: _onChanged,
+        ),
+      ]
+    );
   }
 }
