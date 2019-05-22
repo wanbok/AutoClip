@@ -74,6 +74,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
         _contentCopyIfCan(textEditingController.text);
         break;
       case AppLifecycleState.resumed:
+        _resume();
         break;
       case AppLifecycleState.inactive:
       case AppLifecycleState.suspending:
@@ -92,19 +93,30 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
     if (text.trim().isEmpty) return;
     final ClipboardData oldData = await Clipboard.getData('text/plain');
     // if (text == oldData.text) return; // Let the message post even if duplicated
+    Clipboard.setData(ClipboardData(text: text));
     _notifyText(text);
+
+    Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+    prefs.then((prefs) {
+      if (prefs.getBool(Keys.doClearAfterCopy) ?? false)
+        textEditingController.clear();
+    });
   }
 
   void _notifyText(String message) {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      Clipboard.setData(ClipboardData(text: message));
-      notificationService.showNotification(message);
+    Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+    prefs.then((prefs) {
+      if (prefs.getBool(Keys.doShowPushNotification) ?? true)
+        notificationService.showNotification(message);
     });
+  }
+
+  void _resume() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getBool(Keys.isAutoPasteOn) ?? false) {
+      final ClipboardData oldData = await Clipboard.getData('text/plain');
+      textEditingController.text = oldData.text;
+    }
   }
 
   @override

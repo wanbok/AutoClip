@@ -4,6 +4,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Keys {
   static final String isAutoCopyOn = 'isAutoCopyOn';
+  static final String isAutoPasteOn = 'isAutoPasteOn';
+  static final String doClearAfterCopy = 'doClearAfterCopy';
+  static final String doShowPushNotification = 'doShowPushNotification';
 }
 
 class Menu extends StatefulWidget {
@@ -49,6 +52,15 @@ class _MenuState extends State<Menu> {
             ListTile(
               title: TextSwitch(title: 'Auto Copy', key: Keys.isAutoCopyOn, defaultValue: true),
             ),
+            ListTile(
+              title: TextSwitch(title: 'Auto Paste on load', key: Keys.isAutoPasteOn, defaultValue: false),
+            ),
+            ListTile(
+              title: TextSwitch(title: 'Clear Text after copy', key: Keys.doClearAfterCopy, defaultValue: false),
+            ),
+            ListTile(
+              title: TextSwitch(title: 'Push notification after copy', key: Keys.doShowPushNotification, defaultValue: true),
+            ),
           ],
         ),
       );
@@ -83,7 +95,7 @@ class TextSwitchState extends State<TextSwitch> {
 
   _loadDataFromSharedPreferences(String key) {
     SharedPreferences.getInstance()
-      .then((prefs) => setState(() => _value = (prefs.getBool(_key) ?? true)));
+      .then((prefs) => setState(() => _value = (prefs.getBool(_key) ?? _value)));
   }
   _onChanged(bool value) {
     setState(() => _value = value);
@@ -104,7 +116,8 @@ class TextSwitchState extends State<TextSwitch> {
           inactiveThumbColor: Colors.grey,
           onChanged: _onChanged,
         ),
-      ]
+      ],
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
     );
   }
 }
