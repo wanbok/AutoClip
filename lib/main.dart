@@ -133,6 +133,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
         // Here we take the value from the Main object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        brightness: Brightness.light,
       ),
       body: Container(
         margin: const EdgeInsets.only(left: 20.0, right: 20.0),
