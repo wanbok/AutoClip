@@ -136,7 +136,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
         brightness: Brightness.light,
       ),
       body: Container(
-        margin: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10),
+        margin: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0, bottom: 20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
