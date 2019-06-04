@@ -54,16 +54,19 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
   final key = GlobalKey<ScaffoldState>();
   final textEditingController = TextEditingController();
   final notificationService = NotificationService();
+  FocusNode focusNode;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    focusNode = FocusNode();
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    focusNode.dispose();
     super.dispose();
   }
 
@@ -117,6 +120,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
       final ClipboardData oldData = await Clipboard.getData('text/plain');
       textEditingController.text = oldData.text;
     }
+    FocusScope.of(context).requestFocus(focusNode);
   }
 
   @override
@@ -143,6 +147,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
             Expanded(
               child: TextField(
                 autofocus: true,
+                focusNode: focusNode,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
                 controller: textEditingController,
