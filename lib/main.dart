@@ -15,6 +15,7 @@ class AutoClipApp extends StatelessWidget {
     return MaterialApp(
       title: 'Auto Clip',
       theme: ThemeData(
+        brightness: Brightness.dark,
         primarySwatch: color,
         primaryTextTheme: TextTheme(
           title: TextStyle(
@@ -52,7 +53,7 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> with WidgetsBindingObserver {
-  final key = GlobalKey<ScaffoldState>();
+  static final GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
   final textEditingController = TextEditingController();
   final notificationService = NotificationService();
   int maxLine = 5;
@@ -149,7 +150,6 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
         // Here we take the value from the Main object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
-        brightness: Brightness.light,
       ),
       body: Container(
         margin: const EdgeInsets.only(top: 0.0, left: 20.0, right: 20.0, bottom: 5.0),
