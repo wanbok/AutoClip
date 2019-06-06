@@ -54,13 +54,14 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
   final key = GlobalKey<ScaffoldState>();
   final textEditingController = TextEditingController();
   final notificationService = NotificationService();
+  int maxLine = 5;
   FocusNode focusNode;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    focusNode = FocusNode();
+    focusNode = FocusNode()..addListener(_refreshMaxTextLine);
   }
 
   @override
@@ -123,6 +124,16 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
     FocusScope.of(context).requestFocus(focusNode);
   }
 
+  void _refreshMaxTextLine() {
+    setState(() {
+      double height = MediaQuery.of(context).size.height;
+      double vertical = MediaQuery.of(context).viewInsets.vertical;
+      double textHeight = height - vertical;
+      maxLine = (textHeight / 80).floor();
+      print(maxLine);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -140,28 +151,27 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
         brightness: Brightness.light,
       ),
       body: Container(
-        margin: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0, bottom: 20.0),
+        margin: const EdgeInsets.only(top: 0.0, left: 20.0, right: 20.0, bottom: 5.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Expanded(
-              child: TextField(
-                autofocus: true,
-                focusNode: focusNode,
-                maxLines: null,
-                keyboardType: TextInputType.multiline,
-                controller: textEditingController,
-                decoration: InputDecoration(
-                  hintText: 'Write text to clip on',
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.clear),
-                    onPressed: () {
-                      textEditingController.clear();
-                    }
-                  ),
+            TextField(
+              autofocus: true,
+              focusNode: focusNode,
+              minLines: 1,
+              maxLines: maxLine,
+              keyboardType: TextInputType.multiline,
+              controller: textEditingController,
+              decoration: InputDecoration(
+                hintText: 'Write text to clip on',
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.clear),
+                  onPressed: () {
+                    textEditingController.clear();
+                  }
                 ),
-                style: Theme.of(context).textTheme.headline,
               ),
+              style: Theme.of(context).textTheme.headline,
             ),
           ],
         ),
