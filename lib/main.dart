@@ -28,6 +28,7 @@ class AutoClipApp extends StatelessWidget {
         ),
       ),
       home: Main(title: 'Auto Clip'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
