@@ -98,7 +98,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
   Future _contentCopy(String text) async {
     if (text.trim().isEmpty) return;
     final ClipboardData oldData = await Clipboard.getData('text/plain');
-    // if (text == oldData.text) return; // Let the message post even if duplicated
+    if (text == oldData.text) return; // Let the message post even if duplicated
     Clipboard.setData(ClipboardData(text: text));
     _notifyText(text);
 
