@@ -54,9 +54,11 @@ class Main extends StatefulWidget {
 
 class _MainState extends State<Main> with WidgetsBindingObserver {
   static final GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
+  static final int limitMaxLines = 10;
+  static final int limitMinLines = 1;
   final textEditingController = TextEditingController();
   final notificationService = NotificationService();
-  int maxLine = 5;
+  int maxLines = limitMaxLines;
   FocusNode focusNode;
 
   @override
@@ -126,13 +128,20 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
     FocusScope.of(context).requestFocus(focusNode);
   }
 
-  void _refreshMaxTextLine() {
-    setState(() {
+  int _maxLines({int lineHeight: 80}) {
       double height = MediaQuery.of(context).size.height;
       double vertical = MediaQuery.of(context).viewInsets.vertical;
       double textHeight = height - vertical;
-      maxLine = (textHeight / 80).floor();
-      print(maxLine);
+      return (textHeight / lineHeight).floor();
+  }
+
+  void _refreshMaxTextLine() {
+    setState(() {
+      int maxLines = _maxLines();
+      if (maxLines < limitMaxLines && maxLines > limitMinLines) {
+        this.maxLines = maxLines;
+      }
+      print(maxLines);
     });
   }
 
@@ -159,8 +168,8 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
             TextField(
               autofocus: true,
               focusNode: focusNode,
-              minLines: 1,
-              maxLines: maxLine,
+              minLines: limitMinLines,
+              maxLines: maxLines,
               keyboardType: TextInputType.multiline,
               controller: textEditingController,
               decoration: InputDecoration(
