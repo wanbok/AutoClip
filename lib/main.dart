@@ -99,8 +99,8 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
 
   Future _contentCopy(String text) async {
     if (text.trim().isEmpty) return;
-    final ClipboardData oldData = await Clipboard.getData('text/plain');
-    if (text == oldData.text) return; // Let the message post even if duplicated
+    // ClipboardData oldData = await Clipboard.getData('text/plain'); // Doesn't work
+    // if (text == oldData.text) return; // Let the message post even if duplicated
     Clipboard.setData(ClipboardData(text: text));
     _notifyText(text);
 
@@ -138,7 +138,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
   void _refreshMaxTextLine() {
     setState(() {
       int maxLines = _maxLines();
-      if (maxLines < limitMaxLines && maxLines > limitMinLines) {
+      if (this.maxLines != maxLines && maxLines < limitMaxLines && maxLines > limitMinLines) {
         this.maxLines = maxLines;
       }
       print(maxLines);
