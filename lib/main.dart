@@ -54,7 +54,7 @@ class Main extends StatefulWidget {
 
 class _MainState extends State<Main> with WidgetsBindingObserver {
   static final GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
-  static final int limitMaxLines = 10;
+  static final int limitMaxLines = 20;
   static final int limitMinLines = 1;
   final textEditingController = TextEditingController();
   final notificationService = NotificationService();
@@ -128,7 +128,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
     FocusScope.of(context).requestFocus(focusNode);
   }
 
-  int _maxLines({int lineHeight: 80}) {
+  int _maxLines({int lineHeight: 42}) {
       double height = MediaQuery.of(context).size.height;
       double vertical = MediaQuery.of(context).viewInsets.vertical;
       double textHeight = height - vertical;
@@ -171,6 +171,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
               minLines: limitMinLines,
               maxLines: maxLines,
               keyboardType: TextInputType.multiline,
+              onChanged: (value) { _refreshMaxTextLine(); },
               controller: textEditingController,
               decoration: InputDecoration(
                 hintText: 'Write text to clip on',
