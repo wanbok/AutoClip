@@ -65,7 +65,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    focusNode = FocusNode()..addListener(_refreshMaxTextLine);
+    focusNode = FocusNode();
   }
 
   @override
